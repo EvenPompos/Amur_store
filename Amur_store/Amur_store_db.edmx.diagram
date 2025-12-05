@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f0bb670f37b6488c910662e6b1fc35a8" Name="Diagram1">
+        <EntityTypeShape EntityType="AmurStoreModel.Categories" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Clients" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Deliveries" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Discounts" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Employees" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Manufactures" Width="1.5" PointX="5.25" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.OrderDetails" Width="1.5" PointX="9.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Orders" Width="1.5" PointX="7.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.OrdersStatus" Width="1.5" PointX="5.25" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.PaymentsStatus" Width="1.5" PointX="5.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.PaymentsType" Width="1.5" PointX="5.25" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Position" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Products" Width="1.5" PointX="7.5" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Role" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Stock" Width="1.5" PointX="9.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Users" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AmurStoreModel.Warehouses" Width="1.5" PointX="7.5" PointY="9.625" IsExpanded="true" />
+        <AssociationConnector Association="AmurStoreModel.FK__Manufactu__Categ__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Clients__UserID__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Orders__ClientID__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Orders__Delivery__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Products__Discou__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Employees__Posit__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Employees__UserI__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Warehouse__Emplo__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Products__Manufa__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__OrderDeta__Order__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__OrderDeta__Produ__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Orders__OrderSta__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Orders__PaymentS__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Orders__PaymentT__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Orders__Warehous__6E01572D" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Stock__ProductID__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Users__RoleID__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK__Stock__Warehouse__619B8048" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

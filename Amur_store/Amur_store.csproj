@@ -14,6 +14,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,8 +37,147 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Azure.Core, Version=1.47.1.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Core.1.47.1\lib\net472\Azure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Identity, Version=1.14.2.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Identity.1.14.2\lib\netstandard2.0\Azure.Identity.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=5.3.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.5.3.0\lib\net462\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=5.3.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.5.3.0\lib\net462\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.Cryptography, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Cryptography.8.0.0\lib\net462\Microsoft.Bcl.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.SqlClient, Version=6.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.SqlClient.6.1.3\lib\net462\Microsoft.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.8.0.1\lib\net462\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.2\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.3, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.3\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.8.0.2\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client, Version=4.73.1.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.4.73.1\lib\net472\Microsoft.Identity.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client.Extensions.Msal, Version=4.73.1.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.Extensions.Msal.4.73.1\lib\netstandard2.0\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=7.7.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.7.7.1\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=7.7.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.7.7.1\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=7.7.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.7.7.1\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols, Version=7.7.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.7.7.1\lib\net472\Microsoft.IdentityModel.Protocols.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect, Version=7.7.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.OpenIdConnect.7.7.1\lib\net472\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=7.7.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.7.7.1\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.77\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ClientModel, Version=1.5.1.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ClientModel.1.5.1\lib\netstandard2.0\System.ClientModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SqlClient, Version=4.6.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.9.0\lib\net462\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=7.7.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.7.7.1\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.AccessControl.5.0.0\lib\net461\System.IO.FileSystem.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory.Data, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.Data.8.0.1\lib\net462\System.Memory.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.5.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Pkcs, Version=8.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Pkcs.8.0.1\lib\net462\System.Security.Cryptography.Pkcs.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.ProtectedData.4.5.0\lib\net461\System.Security.Cryptography.ProtectedData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=8.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.8.0.5\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,10 +196,95 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Amur_store_db.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Categories.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Clients.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Deliveries.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Discounts.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Employees.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Manufactures.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderDetails.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Orders.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrdersStatus.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PasswordHasher.cs" />
+    <Compile Include="PaymentsStatus.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentsType.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Position.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Products.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResetPassword.xaml.cs">
+      <DependentUpon>ResetPassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SignIn.xaml.cs">
+      <DependentUpon>SignIn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SignUp.xaml.cs">
+      <DependentUpon>SignUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Stock.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Users.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Warehouses.cs">
+      <DependentUpon>Amur_store_db.tt</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Amur_store_db.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Amur_store_db.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Amur_store_db.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Amur_store_db.edmx</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -67,6 +293,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ResetPassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SignIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SignUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -86,13 +324,159 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="Amur_store_db.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Amur_store_db.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Amur_store_db.edmx.diagram">
+      <DependentUpon>Amur_store_db.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\Noto\NotoSans-Bold.ttf" />
+    <Resource Include="Resources\Noto\NotoSans-BoldItalic.ttf" />
+    <Resource Include="Resources\Noto\NotoSans-Italic.ttf" />
+    <Resource Include="Resources\Noto\NotoSans-Regular.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-Black.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-BlackItalic.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-Bold.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-BoldItalic.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-Italic.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-Light.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-LightItalic.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-Medium.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-MediumItalic.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-Regular.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-Thin.ttf" />
+    <Resource Include="Resources\Roboto\Roboto-ThinItalic.ttf" />
+    <Resource Include="Resources\Roboto\RobotoCondensed-Bold.ttf" />
+    <Resource Include="Resources\Roboto\RobotoCondensed-BoldItalic.ttf" />
+    <Resource Include="Resources\Roboto\RobotoCondensed-Italic.ttf" />
+    <Resource Include="Resources\Roboto\RobotoCondensed-Light.ttf" />
+    <Resource Include="Resources\Roboto\RobotoCondensed-LightItalic.ttf" />
+    <Resource Include="Resources\Roboto\RobotoCondensed-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Themes\logo_blue.png" />
+    <Resource Include="Resources\Themes\logo_white.png" />
+    <Resource Include="Resources\Images\Case\Корпус Digma DCC-MD302\Корпус Digma DCC-MD302_v1.jpg" />
+    <Resource Include="Resources\Images\Case\Корпус LinkWorld 215K-02 + LPW1685-650W IRU\Корпус LinkWorld 215K-02 + LPW1685-650W IRU_v1.jpg" />
+    <Resource Include="Resources\Images\Case\Корпус Оклик OCC-MD301\Корпус Оклик OCC-MD301_v1.jpg" />
+    <Resource Include="Resources\Images\Case\Корпус Оклик OCC-MD304\Корпус Оклик OCC-MD304_v1.jpg" />
+    <Resource Include="Resources\Images\Cooler\Кулер для процессора DEEPCOOL AG400 [R-AG400-BKNNMN-G-1]\Кулер для процессора DEEPCOOL AG400 [R-AG400-BKNNMN-G-1]_v1.jpg" />
+    <Resource Include="Resources\Images\Cooler\Кулер для процессора DEEPCOOL AK400 [R-AK400-BKNNMN-G-1]\Кулер для процессора DEEPCOOL AK400 [R-AK400-BKNNMN-G-1]_v1.jpg" />
+    <Resource Include="Resources\Images\Cooler\Кулер для процессора Digma D-CPC95-2\Кулер для процессора Digma D-CPC95-2_v1.jpg" />
+    <Resource Include="Resources\Images\Cooler\Кулер для процессора Digma [D-CPC110-PWM1]\Кулер для процессора Digma [D-CPC110-PWM1]_v1.jpg" />
+    <Resource Include="Resources\Images\CPU\Процессор AMD Ryzen 5 5600 OEM\Процессор AMD Ryzen 5 5600 OEM_v1.jpg" />
+    <Resource Include="Resources\Images\CPU\Процессор AMD Ryzen 5 5600G OEM\Процессор AMD Ryzen 5 5600G OEM_v1.jpg" />
+    <Resource Include="Resources\Images\CPU\Процессор AMD Ryzen 5 7500F OEM\Процессор AMD Ryzen 5 7500F OEM_v1.jpg" />
+    <Resource Include="Resources\Images\CPU\Процессор Intel Core i5-12400 OEM\Процессор Intel Core i5-12400 OEM_v1.jpg" />
+    <Resource Include="Resources\Images\CPU\Процессор Intel Core i5-12400F OEM\Процессор Intel Core i5-12400F OEM_v1.jpg" />
+    <Resource Include="Resources\Images\GPU\Видеокарта Asus PCI-E 4.0 DUAL-RTX4060TI-A16G\Видеокарта Asus PCI-E 4.0 DUAL-RTX4060TI-A16G_v1.jpg" />
+    <Resource Include="Resources\Images\GPU\Видеокарта Asus PCI-E 4.0 DUAL-RTX5060TI-O16G\Видеокарта Asus PCI-E 4.0 DUAL-RTX5060TI-O16G_v1.jpg" />
+    <Resource Include="Resources\Images\GPU\Видеокарта MSI GeForce RTX 4070 Ti SUPER VENTUS 3X OC\Видеокарта MSI GeForce RTX 4070 Ti SUPER VENTUS 3X OC_v1.jpg" />
+    <Resource Include="Resources\Images\GPU\Видеокарта MSI GeForce RTX 5060 Ti VENTUS 2X OC PLUS\Видеокарта MSI GeForce RTX 5060 Ti VENTUS 2X OC PLUS_v1.jpg" />
+    <Resource Include="Resources\Images\GPU\Видеокарта Palit GeForce RTX 4060 Infinity 2\Видеокарта Palit GeForce RTX 4060 Infinity 2_v1.jpg" />
+    <Resource Include="Resources\Images\GPU\Видеокарта Palit GeForce RTX 5060 Ti Infinity 3\Видеокарта Palit GeForce RTX 5060 Ti Infinity 3_v1.jpg" />
+    <Resource Include="Resources\Images\HDD\1 ТБ Жесткий диск Seagate BarraCuda\1 ТБ Жесткий диск Seagate BarraCuda_v1.jpg" />
+    <Resource Include="Resources\Images\HDD\1 ТБ Жесткий диск WD Blue\1 ТБ Жесткий диск WD Blue_v1.jpg" />
+    <Resource Include="Resources\Images\HDD\2 ТБ Жесткий диск Seagate BarraCuda\2 ТБ Жесткий диск Seagate BarraCuda_v1.jpg" />
+    <Resource Include="Resources\Images\HDD\2 ТБ Жесткий диск WD Blue\2 ТБ Жесткий диск WD Blue_v1.jpg" />
+    <Resource Include="Resources\Images\Laptop\iRU 15ALC\iRU 15ALC_v1.png" />
+    <Resource Include="Resources\Images\Laptop\Ноутбук «Гравитон» Н15А-Б\Ноутбук «Гравитон» Н15А-Б_v1.jpg" />
+    <Resource Include="Resources\Images\Laptop\Ноутбук БЕШТАУ LT1502\Ноутбук БЕШТАУ LT1502_v1.jpg" />
+    <Resource Include="Resources\Images\Monoblock\AMUR Тигр H6I12\Monoblock_H6l12_v1.png" />
+    <Resource Include="Resources\Images\Monoblock\AMUR Тигр H6I12\Monoblock_H6l12_v2.png" />
+    <Resource Include="Resources\Images\Monoblock\AMUR Тигр H6I12\Monoblock_H6l12_v3.png" />
+    <Resource Include="Resources\Images\Monoblock\AMUR Тигр H6I12\Monoblock_H6l12_v4.png" />
+    <Resource Include="Resources\Images\Monoblock\iRU Strato 31.5\iRU Strato 31.5_v1.png" />
+    <Resource Include="Resources\Images\Monoblock\iRU Tactio 24ID\iRU Tactio 24ID_v1.png" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата Asrock B550M-HDV\Материнская плата Asrock B550M-HDV_v1.jpg" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата Asrock B650 PG LIGHTNING\Материнская плата Asrock B650 PG LIGHTNING_v1.jpg" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата Asrock B760M-HDV M.2 D4\Материнская плата Asrock B760M-HDVM.2 D4_v1.jpg" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата Asus PRIME 650M-A ll-CSM\Материнская плата Asus PRIME 650M-A ll-CSM_v1.jpg" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата Asus PRIME B550M-K\Материнская плата Asus PRIME B550M-K_v1.jpg" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата Asus PRIME B760M-K\Материнская плата Asus PRIME B760M-K_v1.jpg" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата IRU A520M-VHDiM.2\Материнская плата IRU A520M-VHDiM.2_v1.png" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата IRU H610M-VHDD4M.2\Материнская плата IRU H610M-VHDD4M.2_v1.png" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата MSI B450M-A PRO MAX\Материнская плата MSI B450M-A PRO MAX_v1.jpg" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата MSI PRO B650M-E\Материнская плата MSI PRO B650M-E_v1.jpg" />
+    <Resource Include="Resources\Images\Motherboard\Материнская плата MSI PRO B760M-E\Материнская плата MSI PRO B760M-E_v1.jpg" />
+    <Resource Include="Resources\Images\Nettop\AMUR Финвал H6I12\Nettop_H6l12_v1.png" />
+    <Resource Include="Resources\Images\Nettop\AMUR Финвал H6I12\Nettop_H6l12_v2.png" />
+    <Resource Include="Resources\Images\Nettop\AMUR Финвал H6I12\Nettop_H6l12_v3.png" />
+    <Resource Include="Resources\Images\Nettop\AMUR Финвал H6I12\Nettop_H6l12_v4.png" />
+    <Resource Include="Resources\Images\Nettop\iRU Planio 115\iRU Planio 115_v1.png" />
+    <Resource Include="Resources\Images\Nettop\iRU Tactio 525\iRU Tactio 525_v1.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А12\PC_A5A12_v1.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А12\PC_A5A12_v2.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А12\PC_A5A12_v3.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А12\PC_A5A12_v4.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А12\Без_AMUR\PC_A5A12_v1.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А12\Без_AMUR\PC_A5A12_v2.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А12\Без_AMUR\PC_A5A12_v3.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А14 MT\PC_A5A14_MT_v1.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А14 MT\PC_A5A14_MT_v2.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А14 MT\PC_A5A14_MT_v3.png" />
+    <Resource Include="Resources\Images\PC\Amur Нарвал A5А14 MT\PC_A5A15_MT_v4.png" />
+    <Resource Include="Resources\Images\PC\iRU 510H6SEA\iRU 510H6SEA_v1.png" />
+    <Resource Include="Resources\Images\PC\IRU Home 510B7SE\IRU Home 510B7SE_v1.png" />
+    <Resource Include="Resources\Images\PC\IRU Office 310H6SM\IRU Office 310H6SM_v1.png" />
+    <Resource Include="Resources\Images\PowerUnit\Блок питания Bloody ATX 500W BD-PS500W\Блок питания Bloody ATX 500W BD-PS500W_v1.jpg" />
+    <Resource Include="Resources\Images\PowerUnit\Блок питания Bloody ATX 650W BD-PS650B\Блок питания Bloody ATX 650W BD-PS650B_v1.jpg" />
+    <Resource Include="Resources\Images\PowerUnit\Блок питания Bloody ATX 750W BD-PS750B\Блок питания Bloody ATX 750W BD-PS750B_v1.jpg" />
+    <Resource Include="Resources\Images\PowerUnit\Блок питания Digma ATX 500W DPSU-500W-WH\Блок питания Digma ATX 500W DPSU-500W-WH_v1.jpg" />
+    <Resource Include="Resources\Images\PowerUnit\Блок питания Digma ATX 650W DPSU-650W-WH\Блок питания Digma ATX 650W DPSU-650W-WH_v1.jpg" />
+    <Resource Include="Resources\Images\PowerUnit\Блок питания Digma ATX 750W DPSU-750W-WH\Блок питания Digma ATX 750W DPSU-750W-WH_v1.jpg" />
+    <Resource Include="Resources\Images\RAM\Оперативная память Digma DGMAD43200016D 16 ГБ\Оперативная память Digma DGMAD43200016D 16 ГБ_v1.jpg" />
+    <Resource Include="Resources\Images\RAM\Память DDR4 16GB 2666MHz Patriot PSP416G2666H1\Память DDR4 16GB 2666MHz Patriot PSP416G2666H1_v1.jpg" />
+    <Resource Include="Resources\Images\RAM\Память DDR4 16GB 3200MHz ТМИ ЦРМП.467526.001-03\Память DDR4 16GB 3200MHz ТМИ ЦРМП.467526.001-03_v1.jpg" />
+    <Resource Include="Resources\Images\RAM\Память DDR4 8GB 2666MHz Patriot PSP48G2666H1\Память DDR4 8GB 2666MHz Patriot PSP48G2666H1_v1.jpg" />
+    <Resource Include="Resources\Images\RAM\Память DDR4 8GB 2666MHz ТМИ ЦРМП.467526.001\Память DDR4 8GB 2666MHz ТМИ ЦРМП.467526.001_v1.jpg" />
+    <Resource Include="Resources\Images\RAM\Память DDR4 8GB 3600MHz Digma DGMAD43600008S\Память DDR4 8GB 3600MHz Digma DGMAD43600008S_v1.jpg" />
+    <Resource Include="Resources\Images\Server\iRU S9108E\iRU S9108E_v1.png" />
+    <Resource Include="Resources\Images\SSD\1000 ГБ 2.5 SATA накопитель Digma\1000 ГБ 2.5 SATA накопитель Digma Run P1 _v1.jpg" />
+    <Resource Include="Resources\Images\SSD\1000 ГБ M.2 NVMe накопитель Patriot\1000 ГБ M.2 NVMe накопитель Patriot P400 _v1.jpg" />
+    <Resource Include="Resources\Images\SSD\1024 ГБ M.2 NVMe накопитель Digma Mega S3\1024 ГБ M.2 NVMe накопитель Digma Mega S3_v1.jpg" />
+    <Resource Include="Resources\Images\SSD\512 ГБ 2.5 SATA накопитель Patriot Memory P210\512 ГБ 2.5 SATA накопитель Patriot Memory P210_v1.jpg" />
+    <Resource Include="Resources\Images\SSD\Накопитель SSD ТМИ SATA-III 1TB ЦРМП.467512.001-02\Накопитель SSD ТМИ SATA-III 1TB ЦРМП.467512.001-02_v1.jpg" />
+    <Resource Include="Resources\Images\SSD\Накопитель SSD ТМИ SATA-III 1TB ЦРМП.467512.002-02\Накопитель SSD ТМИ SATA-III 1TB ЦРМП.467512.002-02_v1.jpg" />
+    <Resource Include="Resources\Themes\Background.png" />
+    <Content Include="Amur_store_db.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Amur_store_db.edmx</DependentUpon>
+      <LastGenOutput>Amur_store_db.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Amur_store_db.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Amur_store_db.edmx</DependentUpon>
+      <LastGenOutput>Amur_store_db.cs</LastGenOutput>
+    </Content>
+    <Content Include="Resources\Themes\logo1.svg" />
+    <Content Include="Resources\Themes\logo2.svg" />
+    <Resource Include="Resources\Themes\logo_black.png" />
+    <Content Include="Resources\Themes\logo_black.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.6.0.2\build\net462\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.6.0.2\build\net462\Microsoft.Data.SqlClient.SNI.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Data.SqlClient.SNI.6.0.2\build\net462\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Data.SqlClient.SNI.6.0.2\build\net462\Microsoft.Data.SqlClient.SNI.targets'))" />
+    <Error Condition="!Exists('..\packages\MaterialDesignThemes.5.3.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.5.3.0\build\MaterialDesignThemes.targets'))" />
+  </Target>
+  <Import Project="..\packages\MaterialDesignThemes.5.3.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.5.3.0\build\MaterialDesignThemes.targets')" />
 </Project>
