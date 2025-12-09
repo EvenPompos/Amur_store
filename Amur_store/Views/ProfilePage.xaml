@@ -1,0 +1,246 @@
+﻿<Page x:Class="Amur_store.Views.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Профиль - Amur Store"
+      Loaded="Page_Loaded">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+                <GradientStop Color="#FF0A2463" Offset="0" />
+                <GradientStop Color="#FF1E3A8A" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Верхняя панель -->
+        <Border Height="475" VerticalAlignment="Top" CornerRadius="0 0 120 0" Background="#100E17" Opacity="0.9"/>
+
+        <!-- Заголовок -->
+        <StackPanel Margin="40,40,40,0" VerticalAlignment="Top">
+            <TextBlock Text="Личный кабинет" FontSize="36" Foreground="White"
+                       FontFamily="Segoe UI" FontWeight="Bold"/>
+            <TextBlock x:Name="WelcomeText" Text="Добро пожаловать!" FontSize="18" 
+                       Foreground="#A0B3E0" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Основной контейнер -->
+        <Border Background="#1A2030" CornerRadius="12" Margin="40,130,40,20" 
+                BorderBrush="#2A3348" BorderThickness="1">
+            <Grid Margin="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Левый столбец -->
+                <TextBlock Text="Логин:" Grid.Column="0" Grid.Row="0" Foreground="#A0B3E0" 
+                           Margin="0,0,10,15" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock x:Name="txtLogin" Grid.Column="1" Grid.Row="0" FontSize="16"
+                           Foreground="White" VerticalAlignment="Center" Margin="0,0,0,15"/>
+                <TextBox x:Name="edLogin" Grid.Column="1" Grid.Row="0" FontSize="16"
+                         Foreground="White" Visibility="Collapsed" Margin="0,0,0,15"
+                         VerticalAlignment="Center" Height="60"
+                         materialDesign:HintAssist.Hint="Логин"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <TextBlock Text="Email:" Grid.Column="0" Grid.Row="1" Foreground="#A0B3E0" 
+                           Margin="0,0,10,15" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock x:Name="txtEmail" Grid.Column="1" Grid.Row="1" FontSize="16"
+                           Foreground="White" VerticalAlignment="Center" Margin="0,0,0,15"/>
+                <TextBox x:Name="edEmail" Grid.Column="1" Grid.Row="1" FontSize="16"
+                         Foreground="White" Visibility="Collapsed" Margin="0,0,0,15"
+                         VerticalAlignment="Center" Height="60"
+                         materialDesign:HintAssist.Hint="Email"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <TextBlock Text="Телефон:" Grid.Column="0" Grid.Row="2" Foreground="#A0B3E0" 
+                           Margin="0,0,10,15" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock x:Name="txtPhone_number" Grid.Column="1" Grid.Row="2" FontSize="16"
+                           Foreground="White" VerticalAlignment="Center" Margin="0,0,0,15"/>
+                <TextBox x:Name="edPhone_number" Grid.Column="1" Grid.Row="2" FontSize="16"
+                         Foreground="White" Visibility="Collapsed" Margin="0,0,0,15"
+                         VerticalAlignment="Center" Height="60"
+                         materialDesign:HintAssist.Hint="+7 (___) ___-__-__"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <TextBlock Text="Адрес:" Grid.Column="0" Grid.Row="3" Foreground="#A0B3E0" 
+                           Margin="0,0,10,15" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock x:Name="txtAddress" Grid.Column="1" Grid.Row="3" FontSize="16"
+                           Foreground="White" VerticalAlignment="Center" Margin="0,0,0,15"/>
+                <TextBox x:Name="edAddress" Grid.Column="1" Grid.Row="3" FontSize="16"
+                         Foreground="White" Visibility="Collapsed" Margin="0,0,0,15"
+                         VerticalAlignment="Center" Height="60"
+                         materialDesign:HintAssist.Hint="Адрес доставки"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <!-- Правый столбец -->
+                <TextBlock Text="Имя:" Grid.Column="3" Grid.Row="0" Foreground="#A0B3E0" 
+                           Margin="0,0,10,15" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock x:Name="txtName" Grid.Column="4" Grid.Row="0" FontSize="16"
+                           Foreground="White" VerticalAlignment="Center" Margin="0,0,0,15"/>
+                <TextBox x:Name="edName" Grid.Column="4" Grid.Row="0" FontSize="16"
+                         Foreground="White" Visibility="Collapsed" Margin="0,0,0,15"
+                         VerticalAlignment="Center" Height="60"
+                         materialDesign:HintAssist.Hint="Имя"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <TextBlock Text="Фамилия:" Grid.Column="3" Grid.Row="1" Foreground="#A0B3E0" 
+                           Margin="0,0,10,15" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock x:Name="txtSurname" Grid.Column="4" Grid.Row="1" FontSize="16"
+                           Foreground="White" VerticalAlignment="Center" Margin="0,0,0,15"/>
+                <TextBox x:Name="edSurname" Grid.Column="4" Grid.Row="1" FontSize="16"
+                         Foreground="White" Visibility="Collapsed" Margin="0,0,0,15"
+                         VerticalAlignment="Center" Height="60"
+                         materialDesign:HintAssist.Hint="Фамилия"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <TextBlock Text="Отчество:" Grid.Column="3" Grid.Row="2" Foreground="#A0B3E0" 
+                           Margin="0,0,10,15" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock x:Name="txtPatronymic" Grid.Column="4" Grid.Row="2" FontSize="16"
+                           Foreground="White" VerticalAlignment="Center" Margin="0,0,0,15"/>
+                <TextBox x:Name="edPatronymic" Grid.Column="4" Grid.Row="2" FontSize="16"
+                         Foreground="White" Visibility="Collapsed" Margin="0,0,0,15"
+                         VerticalAlignment="Center" Height="60"
+                         materialDesign:HintAssist.Hint="Отчество (если есть)"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <!-- История заказов -->
+                <TextBlock Text="История заказов:" Grid.Column="0" Grid.Row="5" 
+                           Foreground="#A0B3E0" FontSize="16" FontWeight="Bold"
+                           Grid.ColumnSpan="2" Margin="0,20,0,10"/>
+
+                <Button x:Name="ViewOrdersButton" Grid.Column="3" Grid.Row="5" 
+                        Grid.ColumnSpan="2" Content="Просмотреть заказы" 
+                        Background="#3B82F6" Foreground="White" 
+                        Height="36" FontSize="14" FontWeight="Medium"
+                        HorizontalAlignment="Left" Margin="0,20,0,10"
+                        Cursor="Hand" Click="ViewOrdersButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                                CornerRadius="8" 
+                                                Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#2563EB"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Кнопки действий -->
+                <StackPanel Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5" 
+                            Orientation="Horizontal" HorizontalAlignment="Center" 
+                            Margin="0,30,0,0">
+                    <Button x:Name="butEdit" Content="Редактировать профиль" 
+                            Background="#3B82F6" Foreground="White"
+                            BorderThickness="0" Height="40" Width="180"
+                            FontSize="14" FontWeight="Medium"
+                            Cursor="Hand" Click="butEdit_Click" Margin="0,0,15,0">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" 
+                                                    CornerRadius="8" 
+                                                    Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#2563EB"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button x:Name="butSave" Content="Сохранить изменения" 
+                            Background="#10B981" Foreground="White"
+                            BorderThickness="0" Height="40" Width="180"
+                            FontSize="14" FontWeight="Medium"
+                            Cursor="Hand" Click="butSave_Click" Margin="15,0,15,0"
+                            Visibility="Collapsed">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" 
+                                                    CornerRadius="8" 
+                                                    Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#059669"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button x:Name="butCancel" Content="Отменить" 
+                            Background="#6B7280" Foreground="White"
+                            BorderThickness="0" Height="40" Width="120"
+                            FontSize="14" FontWeight="Medium"
+                            Cursor="Hand" Click="butCancel_Click" 
+                            Visibility="Collapsed">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" 
+                                                    CornerRadius="8" 
+                                                    Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#4B5563"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

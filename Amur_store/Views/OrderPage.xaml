@@ -1,0 +1,268 @@
+﻿<Page x:Class="Amur_store.Views.OrderPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:AmurStore.Helpers"
+      Title="Мои заказы - Amur Store"
+      Loaded="Page_Loaded">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+                <GradientStop Color="#FF0A2463" Offset="0" />
+                <GradientStop Color="#FF1E3A8A" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Border Height="150" VerticalAlignment="Top" CornerRadius="0 0 120 0" Background="#100E17" Opacity="0.9"/>
+
+        <StackPanel Margin="40,40,40,0" VerticalAlignment="Top">
+            <TextBlock Text="Мои заказы" FontSize="36" Foreground="White"
+                       FontFamily="Segoe UI" FontWeight="Bold"/>
+            <TextBlock x:Name="OrdersInfoText" Text="Здесь отображаются все ваши заказы" 
+                       FontSize="16" Foreground="#A0B3E0" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <Border Background="#1A2030" CornerRadius="12" Margin="40,130,40,40" 
+                BorderBrush="#2A3348" BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20,20,20,10">
+                    <TextBlock Text="Фильтр по статусу:" Foreground="#A0B3E0" 
+                               VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <ComboBox x:Name="StatusFilterComboBox" Width="200" Height="30"
+                              SelectionChanged="StatusFilterComboBox_SelectionChanged">
+                        <ComboBoxItem Content="Все заказы" Tag="0"/>
+                        <ComboBoxItem Content="В обработке" Tag="1"/>
+                        <ComboBoxItem Content="Оплачен" Tag="2"/>
+                        <ComboBoxItem Content="Отправлен" Tag="3"/>
+                        <ComboBoxItem Content="Доставлен" Tag="4"/>
+                        <ComboBoxItem Content="Отменен" Tag="5"/>
+                    </ComboBox>
+
+                    <TextBlock Text="Период:" Foreground="#A0B3E0" 
+                               VerticalAlignment="Center" Margin="20,0,10,0"/>
+                    <DatePicker x:Name="StartDatePicker" Width="120" Height="30"
+                                materialDesign:HintAssist.Hint="С" Margin="0,0,5,0"/>
+                    <DatePicker x:Name="EndDatePicker" Width="120" Height="30"
+                                materialDesign:HintAssist.Hint="По" Margin="5,0,0,0"/>
+
+                    <Button x:Name="ApplyFilterButton" Content="Применить" 
+                            Background="#3B82F6" Foreground="White"
+                            Height="30" Width="100" Margin="20,0,0,0"
+                            Click="ApplyFilterButton_Click"/>
+                    <Button x:Name="ResetFilterButton" Content="Сбросить" 
+                            Background="#6B7280" Foreground="White"
+                            Height="30" Width="100" Margin="10,0,0,0"
+                            Click="ResetFilterButton_Click"/>
+                </StackPanel>
+
+                <DataGrid x:Name="OrdersDataGrid" Grid.Row="1" Margin="20,0,20,20"
+                          AutoGenerateColumns="False" CanUserAddRows="False"
+                          Background="Transparent" BorderBrush="#2A3348"
+                          RowBackground="#1A2030" AlternatingRowBackground="#151A28"
+                          Foreground="White" HeadersVisibility="Column"
+                          SelectionChanged="OrdersDataGrid_SelectionChanged"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="№ заказа" Binding="{Binding OrderID}" 
+                                            Width="80" Foreground="White"/>
+                        <DataGridTextColumn Header="Дата заказа" 
+                                            Binding="{Binding OrderDate, StringFormat=dd.MM.yyyy HH:mm}" 
+                                            Width="120" Foreground="White"/>
+                        <DataGridTextColumn Header="Сумма" 
+                                            Binding="{Binding TotalAmount, StringFormat={}{0:N0} руб.}" 
+                                            Width="100" Foreground="White"/>
+                        <DataGridTextColumn Header="Скидка" 
+                                            Binding="{Binding DiscountApplied, StringFormat={}{0}%}" 
+                                            Width="70" Foreground="#4ADE80"/>
+                        <DataGridTextColumn Header="Итого" 
+                                            Binding="{Binding FinalAmount, StringFormat={}{0:N0} руб.}" 
+                                            Width="100" Foreground="#FBBF24"/>
+                        <DataGridTextColumn Header="Доставка" Binding="{Binding Delivery.DeliveryName}" 
+                                            Width="120" Foreground="White"/>
+                        <DataGridTextColumn Header="Тип оплаты" Binding="{Binding PaymentType.PaymentTypeName}" 
+                                            Width="100" Foreground="White"/>
+                        <DataGridTextColumn Header="Статус заказа" Binding="{Binding OrderStatus.OrderStatusName}" 
+                                            Width="100" Foreground="White">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="Foreground">
+                                        <Setter.Value>
+                                            <Binding Path="OrderStatus.OrderStatusName">
+                                                <Binding.Converter>
+                                                    <local:OrderStatusToColorConverter/>
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Статус оплаты" Binding="{Binding PaymentStatus.PaymentStatusName}" 
+                                            Width="100" Foreground="White"/>
+                        <DataGridTemplateColumn Header="Действия" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="ViewDetailsButton" Content="Подробнее" 
+                                                Background="#3B82F6" Foreground="White"
+                                                Height="25" Width="80" FontSize="11"
+                                                Tag="{Binding OrderID}"
+                                                Click="ViewDetailsButton_Click"
+                                                Margin="0,0,5,0">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}" 
+                                                                        CornerRadius="4" 
+                                                                        Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                                      VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#2563EB"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button x:Name="CancelOrderButton" Content="Отменить" 
+                                                Background="#EF4444" Foreground="White"
+                                                Height="25" Width="80" FontSize="11"
+                                                Tag="{Binding OrderID}"
+                                                Click="CancelOrderButton_Click"
+                                                Visibility="{Binding CanCancel, Converter={x:Static local:BooleanToVisibilityConverter.Instance}}">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="{TemplateBinding Background}" 
+                                                                        CornerRadius="4" 
+                                                                        Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                                      VerticalAlignment="Center"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#DC2626"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Border Grid.Row="2" x:Name="OrderDetailsPanel" 
+                        Background="#151A28" CornerRadius="8"
+                        BorderBrush="#2A3348" BorderThickness="1"
+                        Margin="20,0,20,20" Padding="20"
+                        Visibility="Collapsed">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <TextBlock Text="Детали заказа №" Foreground="White" FontSize="16" FontWeight="Bold"/>
+                            <TextBlock x:Name="SelectedOrderNumber" Text="" Foreground="#FBBF24" 
+                                       FontSize="16" FontWeight="Bold" Margin="5,0,0,0"/>
+                            <Button x:Name="CloseDetailsButton" Content="✕" 
+                                    Background="Transparent" Foreground="#A0B3E0"
+                                    BorderThickness="0" Width="30" Height="30"
+                                    HorizontalAlignment="Right" Click="CloseDetailsButton_Click">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+
+                        <DataGrid x:Name="OrderDetailsDataGrid" Grid.Row="1" Margin="0,15,0,0"
+                                  AutoGenerateColumns="False" CanUserAddRows="False"
+                                  Background="Transparent" BorderBrush="#2A3348"
+                                  RowBackground="#151A28" AlternatingRowBackground="#1A2030"
+                                  Foreground="White" HeadersVisibility="Column"
+                                  IsReadOnly="True" MaxHeight="200">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Товар" Binding="{Binding Product.ProductName}" 
+                                                    Width="250" Foreground="White"/>
+                                <DataGridTextColumn Header="Цена за ед." 
+                                                    Binding="{Binding UnitPrice, StringFormat={}{0:N0} руб.}" 
+                                                    Width="100" Foreground="White"/>
+                                <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" 
+                                                    Width="70" Foreground="White"/>
+                                <DataGridTextColumn Header="Сумма" 
+                                                    Binding="{Binding SubTotal, StringFormat={}{0:N0} руб.}" 
+                                                    Width="100" Foreground="#FBBF24"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Grid.Row="2" Margin="0,15,0,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="1" Width="300">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="Сумма товаров:" Foreground="#A0B3E0" Width="200"/>
+                                        <TextBlock x:Name="ItemsTotalText" Text="" Foreground="White" 
+                                                   HorizontalAlignment="Right"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="Стоимость доставки:" Foreground="#A0B3E0" Width="200"/>
+                                        <TextBlock x:Name="DeliveryCostText" Text="" Foreground="White" 
+                                                   HorizontalAlignment="Right"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="Скидка:" Foreground="#A0B3E0" Width="200"/>
+                                        <TextBlock x:Name="DiscountText" Text="" Foreground="#4ADE80" 
+                                                   HorizontalAlignment="Right"/>
+                                    </StackPanel>
+                                    <Separator Background="#2A3348" Margin="0,10,0,10"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Итого к оплате:" Foreground="#A0B3E0" 
+                                                   FontWeight="Bold" Width="200"/>
+                                        <TextBlock x:Name="FinalAmountText" Text="" Foreground="#FBBF24" 
+                                                   FontWeight="Bold" HorizontalAlignment="Right"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

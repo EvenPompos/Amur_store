@@ -186,7 +186,7 @@ namespace Amur_store
 
                 case 3: // Client (RoleID = 3)
                     // Клиент - открываем главное окно магазина
-                    MainWindow mainWindow = new MainWindow();
+                    MainWindow mainWindow = new MainWindow(userId, fullName);
                     mainWindow.Show();
                     this.Hide();
                     break;
