@@ -1,277 +1,164 @@
 ﻿using System;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using System.Data.Entity; // ОБЯЗАТЕЛЬНО: для работы .Include()
+using Amur_store;
 
 namespace Amur_store
 {
-    /// <summary>
-    /// Логика взаимодействия для SignIn.xaml
-    /// </summary>
     public partial class SignIn : Window
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
-        //Captcha
         private int failedLoginAttempts = 0;
-        private const int maxFailedAttempts = 5;
+        private const int maxFailedAttempts = 3;
         private string currentCaptcha = "";
         private Random captchaRandom = new Random();
 
         public SignIn()
         {
             InitializeComponent();
-
-            if (!CheckDatabaseConnection(connectionString))
-            {
-                MessageBox.Show("Не удалось подключиться к базе данных. Проверьте настройки подключения.",
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                Application.Current.Shutdown();
-            }
-
             CaptchaPanel.Visibility = Visibility.Collapsed;
         }
 
-        private bool CheckDatabaseConnection(string connectionString)
+        private void butLogin_Click(object sender, RoutedEventArgs e)
         {
+            var loginInput = txtInput.Text.Trim();
+            var password = txtPassword.Password.Trim();
+
+            if (string.IsNullOrWhiteSpace(loginInput) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Введите логин и пароль.", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Проверка капчи, если она видна
+            if (CaptchaPanel.Visibility == Visibility.Visible)
+            {
+                if (!CaptchaTextBox.Text.Equals(currentCaptcha, StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("Неверная капча!", "Ошибка");
+                    ShowCaptcha();
+                    return;
+                }
+            }
+
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (var db = new AmurStoreEntities())
                 {
-                    connection.Open();
-                    return true;
+                    // 1. Ищем пользователя (по Логину ИЛИ по Email)
+                    // Используем .Include, чтобы сразу подгрузить связанные таблицы Clients и Employees
+                    var user = db.Users
+                        .Include(u => u.Role)
+                        .Include(u => u.Clients)
+                        .Include(u => u.Employees)
+                        .FirstOrDefault(u => u.Login == loginInput ||
+                                             u.Clients.Any(c => c.Email == loginInput) ||
+                                             u.Employees.Any(emp => emp.Email == loginInput));
+
+                    if (user == null)
+                    {
+                        HandleFailedLogin();
+                        return;
+                    }
+
+                    // 2. Проверяем пароль
+                    // Используем твой PasswordHasher
+                    if (!PasswordHasher.VerifyPassword(password, user.PasswordHash))
+                    {
+                        HandleFailedLogin();
+                        return;
+                    }
+
+                    // --- УСПЕШНЫЙ ВХОД ---
+                    failedLoginAttempts = 0;
+                    CaptchaPanel.Visibility = Visibility.Collapsed;
+
+                    // 3. Открываем окно в зависимости от роли
+                    if (user.RoleID == 3) // Клиент
+                    {
+                        // САМОЕ ВАЖНОЕ: Находим ClientID!
+                        // Так как пользователь зашел в систему, у него должна быть запись в таблице Clients
+                        var client = user.Clients.FirstOrDefault();
+
+                        if (client != null)
+                        {
+                            string fullName = $"{client.Name} {client.Surname}";
+
+                            // Передаем ClientID в главное окно, чтобы работал Профиль, Корзина и Заказы
+                            // Убедись, что MainWindow принимает (int id, string name)
+                            Amur_store.MainWindow main = new Amur_store.MainWindow(client.ClientID, fullName);
+                            main.Show();
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка: Пользователь найден, но профиль клиента отсутствует.");
+                        }
+                    }
+                    else if (user.RoleID == 1) // Админ
+                    {
+                        MessageBox.Show("Вход администратора (окно не настроено)");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Вход сотрудника (окно не настроено)");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка подключения к БД: {ex.Message}",
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
+                MessageBox.Show($"Ошибка входа: {ex.Message}");
             }
         }
 
-        private bool ValidateEmail(string input)
+        // --- ЛОГИКА КАПЧИ ---
+        private void HandleFailedLogin()
         {
-            try
+            failedLoginAttempts++;
+            if (failedLoginAttempts >= maxFailedAttempts)
             {
-                var addr = new System.Net.Mail.MailAddress(input);
-                return addr.Address == input;
+                ShowCaptcha();
+                MessageBox.Show("Слишком много неудачных попыток. Введите капчу.", "Безопасность");
             }
-            catch
+            else
             {
-                return false;
+                MessageBox.Show("Неверный логин или пароль.", "Ошибка");
             }
-        }
-
-        private string GenerateCaptchaString()
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, 5)
-              .Select(s => s[captchaRandom.Next(s.Length)]).ToArray());
         }
 
         private void ShowCaptcha()
         {
-            currentCaptcha = GenerateCaptchaString();
+            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            currentCaptcha = new string(Enumerable.Repeat(chars, 5).Select(s => s[captchaRandom.Next(s.Length)]).ToArray());
             CaptchaLabel.Text = currentCaptcha;
             CaptchaTextBox.Text = "";
             CaptchaPanel.Visibility = Visibility.Visible;
         }
 
-        private void butLogin_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var input = txtInput.Text.Trim();
-            var password = txtPassword.Password.Trim();
-
-            if (string.IsNullOrWhiteSpace(input) || string.IsNullOrWhiteSpace(password))
+            if (CaptchaTextBox.Text.Equals(currentCaptcha, StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show("Введите логин/email и пароль.", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            try
-            {
-                bool isEmail = ValidateEmail(input);
-
-                // SQL запрос согласно структуре вашей БД
-                string query = @"
-                    SELECT 
-                        U.UserID, 
-                        U.Login, 
-                        U.PasswordHash, 
-                        U.RoleID,
-                        R.RoleName,
-                        ISNULL(C.Name + ' ' + C.Surname, 
-                               ISNULL(E.Name + ' ' + E.Surname, 
-                                      U.Login)) as FullName
-                    FROM Users U
-                    INNER JOIN Role R ON U.RoleID = R.RoleID
-                    LEFT JOIN Clients C ON U.UserID = C.UserID
-                    LEFT JOIN Employees E ON U.UserID = E.UserID
-                    WHERE U.Login = @Input OR (C.Email = @Input) OR (E.Email = @Input)";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@Input", input);
-
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            string storedHash = reader["PasswordHash"]?.ToString();
-                            int roleId = Convert.ToInt32(reader["RoleID"]);
-                            string roleName = reader["RoleName"]?.ToString();
-                            string fullName = reader["FullName"]?.ToString();
-                            int userId = Convert.ToInt32(reader["UserID"]);
-
-                            // Проверяем, что хеш пароля существует и не пустой
-                            if (string.IsNullOrEmpty(storedHash))
-                            {
-                                MessageBox.Show("Ошибка в данных пользователя. Обратитесь к администратору.",
-                                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                                return;
-                            }
-
-                            // Проверяем пароль с использованием PBKDF2
-                            if (PasswordHasher.VerifyPassword(password, storedHash))
-                            {
-                                // Сброс счетчика неудачных попыток
-                                failedLoginAttempts = 0;
-                                CaptchaPanel.Visibility = Visibility.Collapsed;
-
-                                // Открываем соответствующее окно в зависимости от роли
-                                OpenUserWindow(roleId, userId, fullName, roleName);
-                                return;
-                            }
-                        }
-
-                        // Если пользователь не найден или пароль неверный
-                        HandleFailedLogin();
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show($"Ошибка базы данных: {ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при входе: {ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void OpenUserWindow(int roleId, int userId, string fullName, string roleName)
-        {
-            switch (roleId)
-            {
-/*                case 1: // Admin
-                    AdminWindow adminWindow = new AdminWindow(userId, fullName);
-                    adminWindow.Show();
-                    this.Hide();
-                    break;*/
-
-                /*case 2: // Employee (RoleID = 2)
-                    // Сотрудник - окно управления заказами
-                    EmployeeWindow empWindow = new EmployeeWindow(userId, fullName, roleName);
-                    empWindow.Show();
-                    this.Hide();
-                    break;*/
-
-                case 3: // Client (RoleID = 3)
-                    // Клиент - открываем главное окно магазина
-                    MainWindow mainWindow = new MainWindow(userId, fullName);
-                    mainWindow.Show();
-                    this.Hide();
-                    break;
-
-
-
-                default:
-                    MessageBox.Show($"Неизвестная роль пользователя (ID: {roleId}).", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                    break;
-            }
-        }
-
-        private void HandleFailedLogin()
-        {
-            failedLoginAttempts++;
-
-            if (failedLoginAttempts >= maxFailedAttempts)
-            {
-                ShowCaptcha();
-                MessageBox.Show($"Слишком много неудачных попыток входа. Подтвердите, что вы не робот.",
-                    "Безопасность", MessageBoxButton.OK, MessageBoxImage.Warning);
+                failedLoginAttempts = 0;
+                CaptchaPanel.Visibility = Visibility.Collapsed;
+                MessageBox.Show("Капча верна. Повторите вход.");
             }
             else
             {
-                MessageBox.Show("Неверный логин/email или пароль.", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Неверная капча.");
+                ShowCaptcha();
             }
         }
 
-        private void butSingUp_Click(object sender, RoutedEventArgs e)
-        {
-            SignUp window = new SignUp();
-            window.Show();
-            this.Hide();
-        }
-
-        private void butRePass_Click(object sender, RoutedEventArgs e)
-        {
-            ResetPassword window = new ResetPassword();
-            window.Show();
-            this.Hide();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (CaptchaPanel.Visibility == Visibility.Visible)
-            {
-                if (string.IsNullOrWhiteSpace(CaptchaTextBox.Text) ||
-                    !CaptchaTextBox.Text.Equals(currentCaptcha, StringComparison.OrdinalIgnoreCase))
-                {
-                    MessageBox.Show("Неверная CAPTCHA. Попробуйте снова.", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                    ShowCaptcha();
-                    return;
-                }
-
-                // CAPTCHA верна, сбрасываем счетчик
-                failedLoginAttempts = 0;
-                CaptchaPanel.Visibility = Visibility.Collapsed;
-                CaptchaTextBox.Text = "";
-
-                MessageBox.Show("Проверка пройдена. Теперь можете попробовать войти снова.",
-                    "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
+        // Кнопки переходов
+        private void butSingUp_Click(object sender, RoutedEventArgs e) { new SignUp().Show(); this.Close(); }
+        private void butRePass_Click(object sender, RoutedEventArgs e) { new ResetPassword().Show(); this.Close(); }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // Адаптация размера интерфейса
-            double scaleX = this.ActualWidth / 800;
-            double scaleY = this.ActualHeight / 450;
-            double scale = Math.Min(scaleX, scaleY);
-
-            var grid = SignInGrid;
-            if (grid != null)
-            {
-                foreach (var element in grid.Children)
-                {
-                    if (element is FrameworkElement fe)
-                    {
-                        fe.LayoutTransform = new ScaleTransform(scale, scale);
-                    }
-                }
-            }
+            double scale = Math.Min(this.ActualWidth / 800, this.ActualHeight / 450);
+            if (SignInGrid != null) SignInGrid.LayoutTransform = new ScaleTransform(scale, scale);
         }
     }
 }

@@ -46,13 +46,13 @@ namespace Amur_store
         private void butCatalog_Click(object sender, RoutedEventArgs e)
         {
             // Загрузка каталога товаров
-            // MainContent.Navigate(new CatalogPage(userId));
+            MainContent.Navigate(new Views.CatalogPage());
         }
 
         private void butBasket_Click(object sender, RoutedEventArgs e)
         {
-            // Загрузка корзины
-            // MainContent.Navigate(new BasketPage(userId));
+            //Загрузка корзины
+            MainContent.Navigate(new Views.CartPage());
         }
 
         private void butOrders_Click(object sender, RoutedEventArgs e)
