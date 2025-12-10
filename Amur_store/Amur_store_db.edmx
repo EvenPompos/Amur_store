@@ -58,7 +58,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Patronymic" Type="nvarchar" MaxLength="100" />
           <Property Name="Phone" Type="nvarchar" MaxLength="30" />
-          <Property Name="Email" Type="nvarchar" MaxLength="30" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Manufactures">
           <Key>
@@ -92,7 +92,7 @@
           <Property Name="PaymentStatusID" Type="int" Nullable="false" />
           <Property Name="OrderStatusID" Type="int" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="10" Scale="2" />
-          <Property Name="DiscountApplied" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="DiscountApplied" Type="decimal" Precision="10" Scale="2" />
           <Property Name="FinalAmount" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="OrdersStatus">
@@ -587,7 +587,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Patronymic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Position" Relationship="Self.FK__Employees__Posit__403A8C7D" FromRole="Employees" ToRole="Position" />
           <NavigationProperty Name="Users" Relationship="Self.FK__Employees__UserI__3F466844" FromRole="Employees" ToRole="Users" />
           <NavigationProperty Name="Warehouses" Relationship="Self.FK__Warehouse__Emplo__5CD6CB2B" FromRole="Employees" ToRole="Warehouses" />
@@ -628,7 +628,7 @@
           <Property Name="PaymentStatusID" Type="Int32" Nullable="false" />
           <Property Name="OrderStatusID" Type="Int32" Nullable="false" />
           <Property Name="TotalAmount" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="DiscountApplied" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="DiscountApplied" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="FinalAmount" Type="Decimal" Precision="10" Scale="2" />
           <NavigationProperty Name="Clients" Relationship="Self.FK__Orders__ClientID__6C190EBB" FromRole="Orders" ToRole="Clients" />
           <NavigationProperty Name="Deliveries" Relationship="Self.FK__Orders__Delivery__6D0D32F4" FromRole="Orders" ToRole="Deliveries" />

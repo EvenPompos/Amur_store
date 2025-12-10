@@ -1,7 +1,4 @@
-﻿using Amur_store;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,92 +7,101 @@ namespace Amur_store.Views
 {
     public partial class OrderPage : Page
     {
-        private int _currentClientId;
-        private List<Order> _allOrders;
-        private AmurStoreEntities _context;
+        private int clientId;
 
         public OrderPage(int clientId)
         {
             InitializeComponent();
-            _currentClientId = clientId;
-            _context = new AmurStoreEntities();
+            this.clientId = clientId;
 
             StartDatePicker.SelectedDate = DateTime.Now.AddMonths(-1);
             EndDatePicker.SelectedDate = DateTime.Now;
+            StatusFilterComboBox.SelectedIndex = 0;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadOrders();
+            LoadData();
         }
 
-        private void LoadOrders()
+        private void LoadData()
         {
             try
             {
-                _context = new AmurStoreEntities();
-
-                _allOrders = _context.Orders
-                    .Where(o => o.ClientID == _currentClientId)
-                    .Include(o => o.Delivery)
-                    .Include(o => o.PaymentType)
-                    .Include(o => o.OrderStatus)
-                    .Include(o => o.PaymentStatus)
-                    .OrderByDescending(o => o.OrderDate)
-                    .ToList();
-
-                foreach (var order in _allOrders)
+                using (var db = new AmurStoreEntities())
                 {
-                    order.CanCancel = order.OrderStatusID == 1 || order.OrderStatusID == 2;
-                }
+                    // Загружаем заказы клиента
+                    var orders = db.Orders
+                        .Where(o => o.ClientID == clientId)
+                        .OrderByDescending(o => o.OrderDate)
+                        .ToList();
 
-                ApplyFilters();
+                    // Загружаем связанные данные для каждого заказа
+                    foreach (var order in orders)
+                    {
+                        db.Entry(order).Reference("Delivery").Load();
+                        db.Entry(order).Reference("PaymentType").Load();
+                        db.Entry(order).Reference("OrderStatus").Load();
+                        db.Entry(order).Reference("PaymentStatus").Load();
+                    }
+
+                    ApplyFilters(orders);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке заказов: {ex.Message}",
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
-        private void ApplyFilters()
+        private void ApplyFilters(System.Collections.Generic.List<Orders> orders)
         {
-            if (_allOrders == null) return;
-
-            IEnumerable<Order> filteredOrders = _allOrders;
-
-            if (StatusFilterComboBox.SelectedItem is ComboBoxItem selectedItem && selectedItem.Tag != null)
+            try
             {
-                int statusId = int.Parse(selectedItem.Tag.ToString());
-                if (statusId > 0)
+                var filteredOrders = orders.AsEnumerable();
+
+                // Фильтр по статусу
+                if (StatusFilterComboBox.SelectedItem is ComboBoxItem item &&
+                    item.Tag != null &&
+                    item.Tag.ToString() != "0")
                 {
-                    filteredOrders = filteredOrders.Where(o => o.OrderStatusID == statusId);
+                    string statusName = "";
+                    switch (item.Tag.ToString())
+                    {
+                        case "1": statusName = "Оформлен"; break;
+                        case "2": statusName = "В пути"; break;
+                        case "3": statusName = "Доставлен"; break;
+                        case "4": statusName = "Отменен"; break;
+                    }
+
+                    filteredOrders = filteredOrders.Where(o =>
+                        o.OrderStatusID != null);
                 }
-            }
 
-            if (StartDatePicker.SelectedDate.HasValue)
+                // Фильтр по дате
+                if (StartDatePicker.SelectedDate.HasValue)
+                    filteredOrders = filteredOrders.Where(o => o.OrderDate >= StartDatePicker.SelectedDate.Value);
+
+                if (EndDatePicker.SelectedDate.HasValue)
+                    filteredOrders = filteredOrders.Where(o => o.OrderDate <= EndDatePicker.SelectedDate.Value.AddDays(1));
+
+                OrdersDataGrid.ItemsSource = filteredOrders.ToList();
+                OrdersInfoText.Text = $"Заказов: {filteredOrders.Count()}";
+            }
+            catch (Exception ex)
             {
-                filteredOrders = filteredOrders.Where(o => o.OrderDate >= StartDatePicker.SelectedDate.Value);
+                MessageBox.Show($"Ошибка фильтрации: {ex.Message}");
             }
-
-            if (EndDatePicker.SelectedDate.HasValue)
-            {
-                var endDate = EndDatePicker.SelectedDate.Value.AddDays(1);
-                filteredOrders = filteredOrders.Where(o => o.OrderDate < endDate);
-            }
-
-            OrdersDataGrid.ItemsSource = filteredOrders.ToList();
-            OrdersInfoText.Text = $"Найдено заказов: {filteredOrders.Count()}";
         }
 
         private void StatusFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ApplyFilters();
+            LoadData();
         }
 
         private void ApplyFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            ApplyFilters();
+            LoadData();
         }
 
         private void ResetFilterButton_Click(object sender, RoutedEventArgs e)
@@ -103,116 +109,68 @@ namespace Amur_store.Views
             StatusFilterComboBox.SelectedIndex = 0;
             StartDatePicker.SelectedDate = DateTime.Now.AddMonths(-1);
             EndDatePicker.SelectedDate = DateTime.Now;
-            ApplyFilters();
+            LoadData();
         }
 
         private void ViewDetailsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is int orderId)
+            if (sender is Button btn && btn.Tag != null && int.TryParse(btn.Tag.ToString(), out int orderId))
             {
-                LoadOrderDetails(orderId);
+                ShowOrderDetails(orderId);
             }
         }
 
-        private void LoadOrderDetails(int orderId)
+        private void ShowOrderDetails(int orderId)
         {
             try
             {
-                _context = new AmurStoreEntities();
-
-                var orderDetails = _context.OrderDetails
-                    .Where(od => od.OrderID == orderId)
-                    .Include(od => od.Product)
-                    .ToList();
-
-                OrderDetailsDataGrid.ItemsSource = orderDetails;
-
-                var order = _allOrders.FirstOrDefault(o => o.OrderID == orderId);
-                if (order != null)
+                using (var db = new AmurStoreEntities())
                 {
-                    SelectedOrderNumber.Text = order.OrderID.ToString();
-                    ItemsTotalText.Text = $"{order.TotalAmount:N0} руб.";
-                    DeliveryCostText.Text = order.Delivery?.DeliveryCost != null ? $"{order.Delivery.DeliveryCost:N0} руб." : "0 руб.";
+                    // Детали заказа
+                    var details = db.OrderDetails
+                        .Where(od => od.OrderID == orderId)
+                        .ToList();
 
-                    if (order.DiscountApplied > 0)
+                    // Загружаем информацию о продуктах
+                    foreach (var detail in details)
                     {
-                        decimal discountAmount = order.TotalAmount * order.DiscountApplied / 100;
-                        DiscountText.Text = $"-{order.DiscountApplied}% ({discountAmount:N0} руб.)";
-                    }
-                    else
-                    {
-                        DiscountText.Text = "0% (0 руб.)";
+                        db.Entry(detail).Reference("Product").Load();
                     }
 
-                    FinalAmountText.Text = $"{order.FinalAmount:N0} руб.";
+                    OrderDetailsDataGrid.ItemsSource = details;
+
+                    // Информация о заказе
+                    var order = db.Orders.Find(orderId);
+                    if (order != null)
+                    {
+                        db.Entry(order).Reference("Delivery").Load();
+
+                        SelectedOrderNumber.Text = order.OrderID.ToString();
+
+                        decimal itemsTotal = details.Sum(d => d.Subtotal ?? 0);
+                        decimal deliveryCost = order.DeliveryID;
+                        decimal discount = order.DiscountApplied ?? 0;
+                        decimal discountAmount = itemsTotal * discount / 100;
+                        decimal final = order.FinalAmount ?? itemsTotal + deliveryCost - discountAmount;
+
+                        ItemsTotalText.Text = $"{itemsTotal:N0} руб.";
+                        DeliveryCostText.Text = $"{deliveryCost:N0} руб.";
+                        DiscountText.Text = discount > 0 ? $"-{discount}% ({discountAmount:N0} руб.)" : "0% (0 руб.)";
+                        FinalAmountText.Text = $"{final:N0} руб.";
+                    }
+
+                    OrderDetailsPanel.Visibility = Visibility.Visible;
                 }
-
-                OrderDetailsPanel.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке деталей заказа: {ex.Message}",
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка деталей: {ex.Message}");
             }
-        }
-
-        private void CancelOrderButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button && button.Tag is int orderId)
-            {
-                var result = MessageBox.Show("Вы уверены, что хотите отменить заказ?",
-                    "Подтверждение отмены", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    try
-                    {
-                        _context = new AmurStoreEntities();
-
-                        var order = _context.Orders.Find(orderId);
-                        if (order != null && (order.OrderStatusID == 1 || order.OrderStatusID == 2))
-                        {
-                            var canceledStatus = _context.OrderStatus.FirstOrDefault(os => os.OrderStatusName == "Отменен");
-                            if (canceledStatus != null)
-                            {
-                                order.OrderStatusID = canceledStatus.OrderStatusID;
-                                _context.SaveChanges();
-
-                                MessageBox.Show("Заказ успешно отменен",
-                                    "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                                LoadOrders();
-                                OrderDetailsPanel.Visibility = Visibility.Collapsed;
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Невозможно отменить заказ в текущем статусе",
-                                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Ошибка при отмене заказа: {ex.Message}",
-                            "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-            }
-        }
-
-        private void OrdersDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
         }
 
         private void CloseDetailsButton_Click(object sender, RoutedEventArgs e)
         {
             OrderDetailsPanel.Visibility = Visibility.Collapsed;
-        }
-
-        protected override void OnUnloaded(RoutedEventArgs e)
-        {
-            base.OnUnloaded(e);
-            _context?.Dispose();
         }
     }
 }

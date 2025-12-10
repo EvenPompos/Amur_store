@@ -58,7 +58,7 @@ namespace Amur_store
         private void butOrders_Click(object sender, RoutedEventArgs e)
         {
             // Загрузка истории заказов
-            MainContent.Navigate(new Views.OrdersPage(userId));
+            MainContent.Navigate(new Views.OrderPage(userId));
         }
 
         private void butPowerOff_Click(object sender, RoutedEventArgs e)

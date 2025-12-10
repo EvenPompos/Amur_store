@@ -1,0 +1,129 @@
+﻿<Page x:Class="Amur_store.Views.CartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Корзина"
+      Loaded="Page_Loaded">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+                <GradientStop Color="#FF0A2463" Offset="0" />
+                <GradientStop Color="#FF1E3A8A" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Border Height="150" VerticalAlignment="Top" CornerRadius="0 0 120 0" Background="#100E17" Opacity="0.9"/>
+
+        <StackPanel Margin="40,40,40,0" VerticalAlignment="Top">
+            <TextBlock Text="Корзина" FontSize="36" Foreground="White" FontWeight="Bold"/>
+            <TextBlock x:Name="CartInfoText" Text="Товары в корзине" FontSize="16" Foreground="#A0B3E0" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <Border Background="#1A2030" CornerRadius="12" Margin="40,130,40,40" BorderBrush="#2A3348" BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Список товаров в корзине -->
+                <DataGrid x:Name="CartDataGrid" Grid.Row="0" Margin="20,20,20,0"
+                          AutoGenerateColumns="False" CanUserAddRows="False"
+                          Background="Transparent" BorderBrush="#2A3348"
+                          RowBackground="#1A2030" AlternatingRowBackground="#151A28"
+                          Foreground="White" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" Width="300"/>
+                        <DataGridTextColumn Header="Цена" 
+                                            Binding="{Binding Price, StringFormat={}{0:N0} руб.}" 
+                                            Width="100"/>
+                        <DataGridTextColumn Header="Кол-во" 
+                                            Binding="{Binding Quantity}" 
+                                            Width="80"/>
+                        <DataGridTextColumn Header="Сумма" 
+                                            Binding="{Binding Total, StringFormat={}{0:N0} руб.}" 
+                                            Width="100"/>
+                        <DataGridTemplateColumn Header="Действия" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Удалить" Tag="{Binding ProductID}" 
+                                            Click="RemoveItemButton_Click"
+                                            Background="#EF4444" Foreground="White" 
+                                            Width="80" Height="25"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Панель итогов -->
+                <Border Grid.Row="1" Background="#151A28" CornerRadius="8" 
+                        Margin="20,20,20,20" Padding="20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Кнопки -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <Button x:Name="ClearCartButton" Content="Очистить корзину" 
+                                    Background="#6B7280" Foreground="White"
+                                    Height="40" Width="150" Click="ClearCartButton_Click"/>
+                        </StackPanel>
+
+                        <!-- Итоговая сумма -->
+                        <StackPanel Grid.Column="1" Width="300">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <TextBlock Text="Товары:" Foreground="#A0B3E0" Width="200"/>
+                                <TextBlock x:Name="SubtotalText" Text="0 руб." Foreground="White" 
+                                           HorizontalAlignment="Right"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <TextBlock Text="Доставка:" Foreground="#A0B3E0" Width="200"/>
+                                <ComboBox x:Name="DeliveryComboBox" Width="100" Height="30"
+                                          SelectionChanged="DeliveryComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Курьер" Tag="500"/>
+                                    <ComboBoxItem Content="СДЭК" Tag="1250"/>
+                                    <ComboBoxItem Content="Почта" Tag="1500"/>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="Стоимость доставки:" Foreground="#A0B3E0" Width="200"/>
+                                <TextBlock x:Name="DeliveryCostText" Text="0 руб." Foreground="White" 
+                                           HorizontalAlignment="Right"/>
+                            </StackPanel>
+                            <Separator Background="#2A3348" Margin="0,0,0,10"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Итого к оплате:" Foreground="#A0B3E0" 
+                                           FontWeight="Bold" Width="200"/>
+                                <TextBlock x:Name="TotalText" Text="0 руб." Foreground="#FBBF24" 
+                                           FontWeight="Bold" HorizontalAlignment="Right"/>
+                            </StackPanel>
+
+                            <Button x:Name="CheckoutButton" Content="Оформить заказ" 
+                                    Background="#3B82F6" Foreground="White"
+                                    Height="40" Width="150" Margin="0,20,0,0"
+                                    HorizontalAlignment="Right" Click="CheckoutButton_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Сообщение о пустой корзине -->
+        <Border x:Name="EmptyCartPanel" Background="#1A2030" CornerRadius="12" 
+                Margin="40,130,40,40" BorderBrush="#2A3348" BorderThickness="1"
+                Visibility="Collapsed">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="😕" FontSize="72" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                <TextBlock Text="Корзина пуста" FontSize="24" Foreground="White" 
+                           HorizontalAlignment="Center" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="Добавьте товары из каталога" FontSize="16" 
+                           Foreground="#A0B3E0" HorizontalAlignment="Center"/>
+                <Button x:Name="GoToCatalogButton" Content="Перейти в каталог" 
+                        Background="#3B82F6" Foreground="White"
+                        Height="40" Width="200" Margin="0,30,0,0" Click="GoToCatalogButton_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

@@ -219,6 +219,7 @@
     <Compile Include="Manufactures.cs">
       <DependentUpon>Amur_store_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Order.cs" />
     <Compile Include="OrderDetails.cs">
       <DependentUpon>Amur_store_db.tt</DependentUpon>
     </Compile>
@@ -268,6 +269,12 @@
     <Compile Include="Users.cs">
       <DependentUpon>Amur_store_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Views\CartPage.xaml.cs">
+      <DependentUpon>CartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CatalogPage.xaml.cs">
+      <DependentUpon>CatalogPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -311,6 +318,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SignUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CatalogPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
