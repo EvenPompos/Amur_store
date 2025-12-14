@@ -3,6 +3,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Linq;
+
+// Мы явно не используем 'using Amur_store.Views;' или 'using Amur_store.Pages;' для классов страниц,
+// чтобы писать их с префиксом и избежать путаницы.
 
 namespace Amur_store
 {
@@ -10,116 +14,160 @@ namespace Amur_store
     {
         private int userId;
         private string userName;
+        private int userRole;
 
-        public MainWindow(int userId, string userName)
+        public MainWindow(int userId, string userName, int roleId)
         {
             InitializeComponent();
             this.userId = userId;
             this.userName = userName;
+            this.userRole = roleId;
 
-            // Установка заголовка
             Title = $"Amur Store - {userName}";
 
-            // Загрузка главной страницы по умолчанию
+            ConfigureInterface();
             LoadHomePage();
         }
 
-        private void LoadHomePage()
+        private void ConfigureInterface()
         {
-            // Загрузка страницы "Главная"
-            MainContent.Navigate(new Views.MainPage());
-        }
+            // Сброс видимости
+            if (SidebarBasketText != null) SidebarBasketText.Visibility = Visibility.Visible;
+            if (butBasket != null) butBasket.Visibility = Visibility.Visible;
+            if (SidebarEmployeesPanel != null) SidebarEmployeesPanel.Visibility = Visibility.Collapsed;
 
-        // Обработчики событий для кнопок навигации
-        private void butHome_Click(object sender, RoutedEventArgs e)
-        {
-            // Загрузка главной страницы
-            LoadHomePage();
-        }
-
-        private void butAccount_Click(object sender, RoutedEventArgs e)
-        {
-            // Загрузка страницы профиля
-            MainContent.Navigate(new Views.ProfilePage(userId));
-        }
-
-        private void butCatalog_Click(object sender, RoutedEventArgs e)
-        {
-            // Загрузка каталога товаров
-            MainContent.Navigate(new Views.CatalogPage());
-        }
-
-        private void butBasket_Click(object sender, RoutedEventArgs e)
-        {
-            //Загрузка корзины
-            MainContent.Navigate(new Views.CartPage());
-        }
-
-        private void butOrders_Click(object sender, RoutedEventArgs e)
-        {
-            // Загрузка истории заказов
-            MainContent.Navigate(new Views.OrderPage(userId));
-        }
-
-        private void butPowerOff_Click(object sender, RoutedEventArgs e)
-        {
-            // Выход из системы
-            MessageBoxResult result = MessageBox.Show(
-                "Вы уверены, что хотите выйти из системы?",
-                "Подтверждение выхода",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
+            // Если СОТРУДНИК (2) или АДМИН (1)
+            if (userRole == 1 || userRole == 2)
             {
-                SignIn signInWindow = new SignIn();
-                signInWindow.Show();
-                this.Close();
-            }
-        }
+                if (butBasket != null) butBasket.Visibility = Visibility.Collapsed;
+                if (SidebarBasketText != null) SidebarBasketText.Visibility = Visibility.Collapsed;
+                if (SidebarOrdersText != null) SidebarOrdersText.Text = "Работа";
 
-        // Обработка поиска
-        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                string searchText = txtSearch.Text.Trim();
-                if (!string.IsNullOrEmpty(searchText))
+                // Только для Админа
+                if (userRole == 1 && SidebarEmployeesPanel != null)
                 {
-                    // Выполнение поиска
-                    PerformSearch(searchText);
+                    SidebarEmployeesPanel.Visibility = Visibility.Visible;
                 }
             }
         }
 
-        private void PerformSearch(string searchQuery)
+        private void LoadHomePage()
         {
-            // Реализация поиска товаров
-            MessageBox.Show($"Выполняется поиск: {searchQuery}",
-                "Поиск", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            // Пример: MainContent.Navigate(new SearchResultsPage(searchQuery, userId));
+            if (userRole == 3)
+            {
+                // Главная клиента
+                MainContent.Navigate(new Amur_store.Views.MainPage());
+            }
+            else
+            {
+                // Главная сотрудника -> Заказы
+                butOrders_Click(null, null);
+            }
         }
 
-        // Обработчики для верхних кнопок
-        private void btnUserProfile_Click(object sender, RoutedEventArgs e)
+        // --- НАВИГАЦИЯ ---
+
+        private void butHome_Click(object sender, RoutedEventArgs e)
         {
-            butAccount_Click(sender, e); // Перенаправление на страницу профиля
+            MainContent.Navigate(new Amur_store.Views.MainPage());
         }
 
+        private void butAccount_Click(object sender, RoutedEventArgs e)
+        {
+            if (userRole == 3) // КЛИЕНТ
+            {
+                // Открываем обычный профиль (принимает ID)
+                MainContent.Navigate(new Amur_store.Views.ProfilePage(userId));
+            }
+            else // СОТРУДНИК / АДМИН
+            {
+                using (var db = new AmurStoreEntities())
+                {
+                    var emp = db.Employees.Find(userId);
+                    if (emp != null)
+                    {
+                        // ВАЖНО: Открываем EmployeeProfilePage (принимает объект Employees)
+                        MainContent.Navigate(new Amur_store.Views.EmployeeProfilePage(emp));
+                    }
+                }
+            }
+        }
+
+        private void butCatalog_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Navigate(new Amur_store.Views.CatalogPage());
+        }
+
+        private void butBasket_Click(object sender, RoutedEventArgs e)
+        {
+            if (userRole == 3)
+            {
+                MainContent.Navigate(new Amur_store.Views.CartPage(userId));
+            }
+        }
+
+        // === ИСПРАВЛЕНИЕ ОШИБКИ ЗДЕСЬ ===
+        private void butOrders_Click(object sender, RoutedEventArgs e)
+        {
+            if (userRole == 3)
+            {
+                // Клиент смотрит свои покупки (принимает int)
+                MainContent.Navigate(new Amur_store.Views.OrderPage(userId));
+            }
+            else
+            {
+                using (var db = new AmurStoreEntities())
+                {
+                    var emp = db.Employees.Find(userId);
+                    if (emp != null)
+                    {
+                        // Сотрудник смотрит рабочие заказы (принимает Employees)
+                        MainContent.Navigate(new Amur_store.Views.WorkOrdersPage(emp));
+                    }
+                }
+            }
+        }
+
+        private void butEmployees_Click(object sender, RoutedEventArgs e)
+        {
+            if (userRole == 1)
+            {
+                // Страница добавления (Pages)
+                MainContent.Navigate(new Amur_store.Views.AddEmployeePage());
+            }
+        }
+
+        private void butPowerOff_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Выйти из системы?", "Выход", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                if (userRole == 3) new SignIn().Show();
+                else new EmployeeSignIn().Show();
+
+                this.Close();
+            }
+        }
+
+        private void btnUserProfile_Click(object sender, RoutedEventArgs e) => butAccount_Click(sender, e);
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) PerformSearch(txtSearch.Text.Trim());
+        }
+
+        private void PerformSearch(string query)
+        {
+            MessageBox.Show($"Поиск: {query}");
+        }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // Адаптация интерфейса при изменении размера окна
-            double scaleX = this.ActualWidth / 1050;
-            double scaleY = this.ActualHeight / 600;
-            double scale = Math.Min(scaleX, scaleY);
-
-            foreach (var element in MainGrid.Children)
+            double scale = Math.Min(this.ActualWidth / 1050, this.ActualHeight / 600);
+            if (MainGrid != null)
             {
-                if (element is FrameworkElement fe)
+                foreach (var element in MainGrid.Children)
                 {
-                    fe.LayoutTransform = new ScaleTransform(scale, scale);
+                    if (element is FrameworkElement fe) fe.LayoutTransform = new ScaleTransform(scale, scale);
                 }
             }
         }

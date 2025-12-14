@@ -31,6 +31,7 @@ namespace Amur_store
         public Nullable<decimal> TotalAmount { get; set; }
         public Nullable<decimal> DiscountApplied { get; set; }
         public Nullable<decimal> FinalAmount { get; set; }
+        public Nullable<int> EmployeeID { get; set; }
     
         public virtual Clients Clients { get; set; }
         public virtual Deliveries Deliveries { get; set; }
@@ -40,5 +41,6 @@ namespace Amur_store
         public virtual PaymentsStatus PaymentsStatus { get; set; }
         public virtual PaymentsType PaymentsType { get; set; }
         public virtual Warehouses Warehouses { get; set; }
+        public virtual Employees Employees { get; set; }
     }
 }

@@ -41,6 +41,7 @@
         <AssociationConnector Association="AmurStoreModel.FK__Stock__ProductID__60A75C0F" ManuallyRouted="false" />
         <AssociationConnector Association="AmurStoreModel.FK__Users__RoleID__3A81B327" ManuallyRouted="false" />
         <AssociationConnector Association="AmurStoreModel.FK__Stock__Warehouse__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="AmurStoreModel.FK_Orders_Employees" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

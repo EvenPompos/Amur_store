@@ -1,0 +1,122 @@
+﻿<Page x:Class="Amur_store.Views.EmployeeProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Профиль сотрудника"
+      Loaded="Page_Loaded">
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+                <GradientStop Color="#FF0F172A" Offset="0" />
+                <GradientStop Color="#FF1E293B" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Border Height="475" VerticalAlignment="Top" CornerRadius="0 0 120 0" Background="#100E17" Opacity="0.5"/>
+
+        <StackPanel Margin="40,40,40,0" VerticalAlignment="Top">
+            <TextBlock Text="Профиль сотрудника" FontSize="36" Foreground="White" FontWeight="Bold"/>
+            <TextBlock x:Name="WelcomeText" Text="Загрузка..." FontSize="18" Foreground="#94A3B8" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <Border Background="#1E293B" CornerRadius="12" Margin="40,130,40,20" BorderBrush="#334155" BorderThickness="1">
+            <Grid Margin="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.Resources>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="CaretBrush" Value="#3B82F6"/>
+                        <Setter Property="Background" Value="#0F172A"/>
+                        <Setter Property="BorderBrush" Value="#475569"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Height" Value="40"/>
+                        <Setter Property="Margin" Value="0,0,0,15"/>
+                        <Setter Property="FontSize" Value="14"/>
+                    </Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="#94A3B8"/>
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="0,0,10,15"/>
+                    </Style>
+                </Grid.Resources>
+
+                <TextBlock Text="Должность:" Grid.Row="0"/>
+                <TextBlock x:Name="txtPosition" Grid.Column="1" Grid.Row="0" Foreground="#FBBF24" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Таб. номер:" Grid.Row="1"/>
+                <TextBlock x:Name="txtEmpId" Grid.Column="1" Grid.Row="1" Foreground="White" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Логин:" Grid.Row="2"/>
+                <TextBlock x:Name="txtLogin" Grid.Column="1" Grid.Row="2" Foreground="White" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Email:" Grid.Row="3"/>
+                <TextBlock x:Name="txtEmail" Grid.Column="1" Grid.Row="3" Foreground="White" Margin="0,0,0,15"/>
+                <TextBox x:Name="edEmail" Grid.Column="1" Grid.Row="3" Visibility="Collapsed" Padding="10 0 0 0"/>
+
+
+                <TextBlock Text="Фамилия:" Grid.Column="3" Grid.Row="0"/>
+                <TextBlock x:Name="txtSurname" Grid.Column="4" Grid.Row="0" Foreground="White" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Имя:" Grid.Column="3" Grid.Row="1"/>
+                <TextBlock x:Name="txtName" Grid.Column="4" Grid.Row="1" Foreground="White" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Отчество:" Grid.Column="3" Grid.Row="2"/>
+                <TextBlock x:Name="txtPatronymic" Grid.Column="4" Grid.Row="2" Foreground="White" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Телефон:" Grid.Column="3" Grid.Row="3"/>
+                <TextBlock x:Name="txtPhone" Grid.Column="4" Grid.Row="3" Foreground="White" Margin="0,0,0,15"/>
+                <TextBox x:Name="edPhone" Grid.Column="4" Grid.Row="3" Visibility="Collapsed" Padding="10 0 0 0"/>
+
+
+                <StackPanel Grid.Row="5" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,30,0,0">
+                    <Button x:Name="butEdit" Content="Изменить контакты" 
+                            Background="#3B82F6" Foreground="White" Width="200" Height="40"
+                            Click="butEdit_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="butSave" Content="Сохранить" 
+                            Background="#10B981" Foreground="White" Width="150" Height="40" Margin="0,0,10,0"
+                            Visibility="Collapsed" Click="butSave_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="butCancel" Content="Отмена" 
+                            Background="#64748B" Foreground="White" Width="120" Height="40"
+                            Visibility="Collapsed" Click="butCancel_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

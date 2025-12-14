@@ -85,6 +85,7 @@
           </Key>
           <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" />
           <Property Name="OrderDate" Type="datetime" />
           <Property Name="DeliveryID" Type="int" Nullable="false" />
           <Property Name="WarehouseID" Type="int" Nullable="false" />
@@ -402,6 +403,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orders_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -524,6 +537,10 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Warehouses" EntitySet="Warehouses" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_Employees" Association="Self.FK_Orders_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -591,6 +608,7 @@
           <NavigationProperty Name="Position" Relationship="Self.FK__Employees__Posit__403A8C7D" FromRole="Employees" ToRole="Position" />
           <NavigationProperty Name="Users" Relationship="Self.FK__Employees__UserI__3F466844" FromRole="Employees" ToRole="Users" />
           <NavigationProperty Name="Warehouses" Relationship="Self.FK__Warehouse__Emplo__5CD6CB2B" FromRole="Employees" ToRole="Warehouses" />
+          <NavigationProperty Name="Orders" Relationship="AmurStoreModel.FK_Orders_Employees" FromRole="Employees" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Manufactures">
           <Key>
@@ -637,6 +655,8 @@
           <NavigationProperty Name="PaymentsStatus" Relationship="Self.FK__Orders__PaymentS__6FE99F9F" FromRole="Orders" ToRole="PaymentsStatus" />
           <NavigationProperty Name="PaymentsType" Relationship="Self.FK__Orders__PaymentT__6EF57B66" FromRole="Orders" ToRole="PaymentsType" />
           <NavigationProperty Name="Warehouses" Relationship="Self.FK__Orders__Warehous__6E01572D" FromRole="Orders" ToRole="Warehouses" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <NavigationProperty Name="Employees" Relationship="AmurStoreModel.FK_Orders_Employees" FromRole="Orders" ToRole="Employees" />
         </EntityType>
         <EntityType Name="OrdersStatus">
           <Key>
@@ -1083,6 +1103,10 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <AssociationSet Name="FK_Orders_Employees" Association="AmurStoreModel.FK_Orders_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -1095,6 +1119,18 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <Association Name="FK_Orders_Employees">
+          <End Type="AmurStoreModel.Employees" Role="Employees" Multiplicity="0..1" />
+          <End Type="AmurStoreModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1185,6 +1221,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="AmurStoreModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />

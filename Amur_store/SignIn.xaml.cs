@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using System.Data.Entity; // ОБЯЗАТЕЛЬНО: для работы .Include()
+using System.Data.Entity;
 using Amur_store;
 
 namespace Amur_store
@@ -31,7 +31,6 @@ namespace Amur_store
                 return;
             }
 
-            // Проверка капчи, если она видна
             if (CaptchaPanel.Visibility == Visibility.Visible)
             {
                 if (!CaptchaTextBox.Text.Equals(currentCaptcha, StringComparison.OrdinalIgnoreCase))
@@ -46,15 +45,13 @@ namespace Amur_store
             {
                 using (var db = new AmurStoreEntities())
                 {
-                    // 1. Ищем пользователя (по Логину ИЛИ по Email)
-                    // Используем .Include, чтобы сразу подгрузить связанные таблицы Clients и Employees
                     var user = db.Users
                         .Include(u => u.Role)
                         .Include(u => u.Clients)
                         .Include(u => u.Employees)
                         .FirstOrDefault(u => u.Login == loginInput ||
-                                             u.Clients.Any(c => c.Email == loginInput) ||
-                                             u.Employees.Any(emp => emp.Email == loginInput));
+                                               u.Clients.Any(c => c.Email == loginInput) ||
+                                               u.Employees.Any(emp => emp.Email == loginInput));
 
                     if (user == null)
                     {
@@ -62,32 +59,27 @@ namespace Amur_store
                         return;
                     }
 
-                    // 2. Проверяем пароль
-                    // Используем твой PasswordHasher
                     if (!PasswordHasher.VerifyPassword(password, user.PasswordHash))
                     {
                         HandleFailedLogin();
                         return;
                     }
 
-                    // --- УСПЕШНЫЙ ВХОД ---
                     failedLoginAttempts = 0;
                     CaptchaPanel.Visibility = Visibility.Collapsed;
 
-                    // 3. Открываем окно в зависимости от роли
-                    if (user.RoleID == 3) // Клиент
+                    // === РОЛЬ 3: КЛИЕНТ ===
+                    if (user.RoleID == 3)
                     {
-                        // САМОЕ ВАЖНОЕ: Находим ClientID!
-                        // Так как пользователь зашел в систему, у него должна быть запись в таблице Clients
                         var client = user.Clients.FirstOrDefault();
 
                         if (client != null)
                         {
                             string fullName = $"{client.Name} {client.Surname}";
 
-                            // Передаем ClientID в главное окно, чтобы работал Профиль, Корзина и Заказы
-                            // Убедись, что MainWindow принимает (int id, string name)
-                            Amur_store.MainWindow main = new Amur_store.MainWindow(client.ClientID, fullName);
+                            // --- ИСПРАВЛЕНИЕ ЗДЕСЬ ---
+                            // Добавили цифру 3 (RoleID) третьим параметром
+                            Amur_store.MainWindow main = new Amur_store.MainWindow(client.ClientID, fullName, 3);
                             main.Show();
                             this.Close();
                         }
@@ -96,13 +88,13 @@ namespace Amur_store
                             MessageBox.Show("Ошибка: Пользователь найден, но профиль клиента отсутствует.");
                         }
                     }
-                    else if (user.RoleID == 1) // Админ
+                    // Если пытается войти сотрудник через форму клиента
+                    else if (user.RoleID == 1 || user.RoleID == 2)
                     {
-                        MessageBox.Show("Вход администратора (окно не настроено)");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Вход сотрудника (окно не настроено)");
+                        MessageBox.Show("Пожалуйста, воспользуйтесь входом для сотрудников.", "Служебный вход");
+                        // Можно автоматически перекинуть:
+                        // new EmployeeSignIn().Show();
+                        // this.Close();
                     }
                 }
             }
@@ -112,7 +104,7 @@ namespace Amur_store
             }
         }
 
-        // --- ЛОГИКА КАПЧИ ---
+        // --- ЛОГИКА КАПЧИ (ОСТАЕТСЯ БЕЗ ИЗМЕНЕНИЙ) ---
         private void HandleFailedLogin()
         {
             failedLoginAttempts++;
@@ -151,7 +143,6 @@ namespace Amur_store
             }
         }
 
-        // Кнопки переходов
         private void butSingUp_Click(object sender, RoutedEventArgs e) { new SignUp().Show(); this.Close(); }
         private void butRePass_Click(object sender, RoutedEventArgs e) { new ResetPassword().Show(); this.Close(); }
 
@@ -159,6 +150,12 @@ namespace Amur_store
         {
             double scale = Math.Min(this.ActualWidth / 800, this.ActualHeight / 450);
             if (SignInGrid != null) SignInGrid.LayoutTransform = new ScaleTransform(scale, scale);
+        }
+
+        private void GoToEmployeeLogin_Click(object sender, RoutedEventArgs e)
+        {
+            new EmployeeSignIn().Show();
+            this.Close();
         }
     }
 }

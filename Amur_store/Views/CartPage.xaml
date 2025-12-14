@@ -59,7 +59,7 @@
                 </DataGrid>
 
                 <Border Grid.Row="1" Background="#151A28" CornerRadius="8" 
-                        Margin="20,20,20,20" Padding="20">
+        Margin="20,20,20,20" Padding="20">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -67,44 +67,77 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button x:Name="ClearCartButton" Content="Очистить всё" 
-                                Grid.Column="0" VerticalAlignment="Bottom"
-                                Background="#6B7280" Foreground="White"
-                                Height="35" Width="120" Click="ClearCartButton_Click"/>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Top" Width="260">
 
-                        <StackPanel Grid.Column="2" MinWidth="250">
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5" HorizontalAlignment="Right">
-                                <TextBlock Text="Товары:" Foreground="#A0B3E0" Margin="0,0,10,0"/>
-                                <TextBlock x:Name="SubtotalText" Text="0 ₽" Foreground="White"/>
-                            </StackPanel>
+                            <Border Background="#232D42" CornerRadius="6" Padding="10" Margin="0,0,0,15" BorderBrush="#2A3348" BorderThickness="1">
+                                <StackPanel>
+                                    <CheckBox x:Name="AssemblyCheckBox" 
+                              Content="Сборка ПК (+3 000 ₽)"
+                              Foreground="#FBBF24" FontWeight="SemiBold" FontSize="14"
+                              Checked="AssemblyCheckBox_Changed"
+                              Unchecked="AssemblyCheckBox_Changed"
+                              Cursor="Hand"/>
 
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5" HorizontalAlignment="Right">
-                                <TextBlock Text="Доставка:" Foreground="#A0B3E0" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                <ComboBox x:Name="DeliveryComboBox" Width="140" Height="25"
-                                          SelectionChanged="DeliveryComboBox_SelectionChanged">
-                                    <ComboBoxItem Content="Самовывоз" Tag="0" IsSelected="True"/>
-                                    <ComboBoxItem Content="Курьер" Tag="500"/>
-                                    <ComboBoxItem Content="СДЭК" Tag="1250"/>
-                                    <ComboBoxItem Content="Почта РФ" Tag="350"/>
-                                </ComboBox>
-                            </StackPanel>
+                                    <StackPanel x:Name="MasterSelectionPanel" Visibility="Collapsed" Margin="0,10,0,0">
+                                        <TextBlock Text="Мастер:" Foreground="#A0B3E0" FontSize="12" Margin="0,0,0,4"/>
+                                        <ComboBox x:Name="MastersComboBox" 
+                                  DisplayMemberPath="FullName" 
+                                  SelectedValuePath="EmployeeID"
+                                  Height="28" FontSize="13"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Right">
-                                <TextBlock Text="Цена доставки:" Foreground="#A0B3E0" Margin="0,0,10,0"/>
-                                <TextBlock x:Name="DeliveryCostText" Text="0 ₽" Foreground="White"/>
-                            </StackPanel>
+                            <Button x:Name="ClearCartButton" Content="Очистить корзину" 
+                    Background="Transparent" Foreground="#EF4444" BorderBrush="#EF4444" BorderThickness="1"
+                    Height="30" Click="ClearCartButton_Click" Cursor="Hand">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="4"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
 
-                            <Separator Background="#2A3348" Margin="0,10,0,10"/>
+                        <StackPanel Grid.Column="2" MinWidth="250" VerticalAlignment="Top">
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="ИТОГО:" Foreground="#FBBF24" FontWeight="Bold" FontSize="18" Margin="0,0,10,0"/>
-                                <TextBlock x:Name="TotalText" Text="0 ₽" Foreground="#FBBF24" FontWeight="Bold" FontSize="18"/>
-                            </StackPanel>
+                            <Grid Margin="0,0,0,8">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Text="Доставка:" Foreground="#A0B3E0" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                    <ComboBox x:Name="DeliveryComboBox" Width="120" Height="25" FontSize="12"
+                              SelectionChanged="DeliveryComboBox_SelectionChanged">
+                                        <ComboBoxItem Content="Самовывоз" Tag="0" IsSelected="True"/>
+                                        <ComboBoxItem Content="Курьер" Tag="500"/>
+                                        <ComboBoxItem Content="СДЭК" Tag="1250"/>
+                                        <ComboBoxItem Content="Почта РФ" Tag="350"/>
+                                    </ComboBox>
+                                </StackPanel>
+                                <TextBlock x:Name="DeliveryCostText" Text="0 ₽" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Margin="0,0,0,8">
+                                <TextBlock Text="Товары:" Foreground="#A0B3E0" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="SubtotalText" Text="0 ₽" Foreground="White" HorizontalAlignment="Right"/>
+                            </Grid>
+
+                            <Separator Background="#2A3348" Margin="0,5,0,10"/>
+
+                            <Grid Margin="0,0,0,15">
+                                <TextBlock Text="ИТОГО:" Foreground="#FBBF24" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                <TextBlock x:Name="TotalText" Text="0 ₽" Foreground="#FBBF24" FontWeight="Bold" FontSize="22" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                            </Grid>
 
                             <Button x:Name="CheckoutButton" Content="ОФОРМИТЬ ЗАКАЗ" 
-                                    Background="#3B82F6" Foreground="White" FontWeight="Bold"
-                                    Height="40" Margin="0,15,0,0"
-                                    Click="CheckoutButton_Click"/>
+                    Background="#3B82F6" Foreground="White" FontWeight="Bold" FontSize="14"
+                    Height="45" Cursor="Hand"
+                    Click="CheckoutButton_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="6"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+
                         </StackPanel>
                     </Grid>
                 </Border>

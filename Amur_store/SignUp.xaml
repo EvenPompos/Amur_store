@@ -8,8 +8,7 @@
         Title="Amur Store - Регистрация" 
         Height="500" Width="900" 
         WindowStartupLocation="CenterScreen" 
-        WindowStyle="None"
-        AllowsTransparency="True">
+WindowStyle="ThreeDBorderWindow">
 
     <Grid x:Name="SignUpGrid">
         <!-- Основной фон с градиентом -->

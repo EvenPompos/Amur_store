@@ -93,7 +93,7 @@
 
             <!-- Кнопка для обновления рекомендаций -->
             <Button x:Name="RefreshButton" Content="Обновить рекомендации" 
-                    HorizontalAlignment="Center" Margin="0,20,0,0"
+                    HorizontalAlignment="Center"
                     Background="Transparent" BorderBrush="#3B82F6" BorderThickness="2"
                     Foreground="#3B82F6" Height="40" Width="200" FontSize="14"
                     Click="RefreshButton_Click">

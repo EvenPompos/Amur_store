@@ -6,8 +6,7 @@
         Height="600" 
         Width="1050"
         WindowStartupLocation="CenterScreen"  
-        WindowStyle="None"
-        AllowsTransparency="True"
+WindowStyle="ThreeDBorderWindow"
         SizeChanged="Window_SizeChanged"
         WindowState="Maximized">
 
@@ -147,6 +146,25 @@
                                VerticalAlignment="Center" 
                                FontSize="14"/>
                 </StackPanel>
+                
+                <StackPanel x:Name="SidebarEmployeesPanel" 
+                            Orientation="Horizontal" Margin="5" VerticalAlignment="Center"
+                            Visibility="Collapsed">
+                    <Button x:Name="butEmployees" 
+                            Click="butEmployees_Click"
+                            Style="{StaticResource MaterialDesignToolButton}"
+                            Width="50" Height="50"
+                            ToolTip="Управление персоналом">
+                        <materialDesign:PackIcon Kind="AccountTie" 
+                                                 Width="25" Height="25" 
+                                                 Foreground="#FBBF24"/>
+                    </Button>
+                    <TextBlock Text="Сотрудники" 
+                               Margin="10,0,0,0" 
+                               Foreground="White" 
+                               VerticalAlignment="Center" 
+                               FontSize="14"/>
+                </StackPanel>
 
                 <!-- Кнопка выхода -->
                 <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Bottom">
@@ -242,6 +260,7 @@
                                                      Height="28" 
                                                      Foreground="#1E3A8A"/>
                         </Button>
+                    
                         
                     </StackPanel>
                 </Grid>
